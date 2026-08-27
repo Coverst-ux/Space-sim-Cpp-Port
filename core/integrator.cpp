@@ -71,9 +71,9 @@ void update_forces(std::vector<Body>& bodies) {
     float theta = 0.5f;
 
     // Find bounding box
-    float min_x = bodies[0].position.x, max_x = bodies[0].position.x;
-    float min_y = bodies[0].position.y, max_y = bodies[0].position.y;
-    float min_z = bodies[0].position.z, max_z = bodies[0].position.z;
+    double min_x = bodies[0].position.x, max_x = bodies[0].position.x;
+    double min_y = bodies[0].position.y, max_y = bodies[0].position.y;
+    double min_z = bodies[0].position.z, max_z = bodies[0].position.z;
 
 
 
@@ -88,11 +88,11 @@ void update_forces(std::vector<Body>& bodies) {
         max_z = std::max(max_z, b.position.z);
     }
 
-    double center_x = (min_x + max_x) / 2.0f;
-    double center_y = (min_y + max_y) / 2.0f;
-    double center_z = (min_z + max_z) / 2.0f;
+    double center_x = (min_x + max_x) / 2.0;
+    double center_y = (min_y + max_y) / 2.0;
+    double center_z = (min_z + max_z) / 2.0;
 
-    float span = std::max({max_x - min_x, max_y - min_y, max_z - min_z});
+    double span = std::max({max_x - min_x, max_y - min_y, max_z - min_z});
     double octree_size = span * 1.1; // small padding so edge bodies aren't exactly on the boundary
 
 

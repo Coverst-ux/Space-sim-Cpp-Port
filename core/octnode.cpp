@@ -21,7 +21,7 @@ void octnode::insert(Body new_body) {
     if (body.has_value() && children[0] == nullptr) {
         if (size < MIN_SIZE) {
             double total = body->mass + new_body.mass;
-            body->position = body->position.mult(body->mass).add(new_body.position.mult(new_body.mass)).mult(1.0f / total);
+            body->position = body->position.mult(body->mass).add(new_body.position.mult(new_body.mass)).mult(1.0 / total);
             body->mass = total;
             return;
         
@@ -54,7 +54,7 @@ void octnode::subdivide() {
         double y_off = (i & 2) ? offset : -offset;
         double z_off = (i & 4) ? offset : -offset;
 
-        children[i] = std::make_unique<octnode>(cx + x_off, cy + y_off, cz + z_off, size/2.0f);
+        children[i] = std::make_unique<octnode>(cx + x_off, cy + y_off, cz + z_off, size/2.0);
 
 
     }
@@ -91,7 +91,7 @@ vector3d octnode::calculate_forces(Body target_body, float theta){
     }
 
     vector3d com = vector3d(center_of_mass_x, center_of_mass_y, center_of_mass_z);
-    float d = target_body.position.sub(com).magnitude();
+    double d = target_body.position.sub(com).magnitude();
 
     if (d == 0){
         return vector3d(0,0,0);

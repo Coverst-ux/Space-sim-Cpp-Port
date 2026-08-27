@@ -1,0 +1,5 @@
+*.exe
+*.pyd
+*.o
+*.obj
+.vscode/
