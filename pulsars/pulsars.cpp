@@ -28,7 +28,7 @@ double light_cylinder_radius(double speed_of_light, double omega) {
 }
 
 
-vector3d get_magnetic_field(PulsarConfig& config, vector3d& position) {
+vector3d get_magnetic_field(const PulsarConfig& config, const vector3d& position) {
     double d = position.magnitude(); // distance from the center
     if (d == 0){
         throw std::invalid_argument("d must be greater than zero");

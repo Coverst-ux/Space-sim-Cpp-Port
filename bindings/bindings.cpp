@@ -6,6 +6,7 @@
 #include "../core/body.h"
 #include "../core/integrator.h"
 #include "../core/gw_decay.h"
+#include "../pulsars/pulsars.h"
 
 namespace py = pybind11;
 
@@ -87,4 +88,27 @@ PYBIND11_MODULE(space_sim_cpp, m) {
     m.def("update_binaries", &update_binaries,
       py::arg("bodies"), py::arg("dt"),
       "Updates all active binary pairs via GW decay and writes results back into bodies");
+    
+    py::class_<PulsarConfig>(m, "PulsarConfig")
+        .def(py::init<double, double, double, double, vector3d>())
+        .def_readwrite("stellar_radius", &PulsarConfig::stellar_radius)
+        .def_readwrite("speed_of_light", &PulsarConfig::speed_of_light)
+        .def_readwrite("polar_field_strength", &PulsarConfig::polar_field_strength)
+        .def_readwrite("omega", &PulsarConfig::omega)
+        .def_readwrite("magnetic_axis", &PulsarConfig::magnetic_axis);
+
+    m.def("rotation_period", &rotation_period,
+    py::arg("omega"), "Returns the time required for one full rotation from the angular velocity"
+    );
+
+    m.def("light_cylinder_radius", &light_cylinder_radius,
+    py::arg("speed_of_light"),
+    py::arg("omega")
+    );
+
+    m.def("get_magnetic_field", &get_magnetic_field,
+    py::arg("config"),
+    py::arg("position")
+    );
+
 }
