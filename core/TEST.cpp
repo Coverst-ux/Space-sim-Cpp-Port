@@ -10,7 +10,7 @@
 
 int main(){
 
-    float dt = 3600.0f;
+    double dt = 3600.0f;
 
     // Generate 750 bodies for performance stress-testing (not physically meaningful)
     // std::vector<body> bodies;

@@ -9,7 +9,7 @@
 #include "gravity.h"
 #include "octnode.h"
 
-void euler_step (std::vector<Body>& bodies, float dt) {
+void euler_step (std::vector<Body>& bodies, double dt) {
     // purely for research purposes, not actually used anywhere in the project
    std::vector<vector3d> forces(bodies.size(), vector3d(0, 0, 0));
    for (int i = 0; i < bodies.size(); i++) {
@@ -68,7 +68,7 @@ void euler_step (std::vector<Body>& bodies, float dt) {
 void update_forces(std::vector<Body>& bodies) {
     auto t0 = std::chrono::high_resolution_clock::now();
 
-    float theta = 0.5f;
+    double theta = 0.5;
 
     // Find bounding box
     double min_x = bodies[0].position.x, max_x = bodies[0].position.x;
@@ -115,7 +115,7 @@ void update_forces(std::vector<Body>& bodies) {
             continue;
 
         vector3d force = root.calculate_forces(b, theta);
-        b.acceleration = force.mult(1.0f / b.mass);
+        b.acceleration = force.mult(1.0 / b.mass);
     }
 
 
@@ -137,12 +137,12 @@ for (int i = 0; i < (int)bodies.size(); i++) {
 
             bodies[i].acceleration =
                 bodies[i].acceleration.sub(
-                    f.mult(1.0f / bodies[i].mass)
+                    f.mult(1. / bodies[i].mass)
                 );
 
             bodies[j].acceleration =
                 bodies[j].acceleration.add(
-                    f.mult(1.0f / bodies[j].mass)
+                    f.mult(1.0 / bodies[j].mass)
                 );
         }
     }
@@ -151,7 +151,7 @@ for (int i = 0; i < (int)bodies.size(); i++) {
 
 }
 
-void leapfrog_step(std::vector<Body>& bodies, float dt, bool is_first_step = false) {
+void leapfrog_step(std::vector<Body>& bodies, double dt, bool is_first_step = false) {
     // if its the first step then it calculates the forces since there is nothing there to start with
 if (is_first_step) {
     update_forces(bodies);

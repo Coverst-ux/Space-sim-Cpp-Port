@@ -13,14 +13,14 @@ std::vector<Body> bodies;
 
 for (auto& b : data["bodies"]) {
     std::string name = b["name"];
-    float mass = b["mass"];
+    double mass = b["mass"];
     double radius = b["radius"];
-    float px = b["position"][0];
-    float py = b["position"][1];
-    float pz = b["position"][2];
-    float vx = b["velocity"][0];
-    float vy = b["velocity"][1];
-    float vz = b["velocity"][2];
+    double px = b["position"][0];
+    double py = b["position"][1];
+    double pz = b["position"][2];
+    double vx = b["velocity"][0];
+    double vy = b["velocity"][1];
+    double vz = b["velocity"][2];
 
     vector3d position(px, py, pz);
     vector3d velocity(vx, vy, vz);

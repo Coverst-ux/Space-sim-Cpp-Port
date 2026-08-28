@@ -13,7 +13,7 @@ PYBIND11_MAKE_OPAQUE(std::vector<Body>);
 
 PYBIND11_MODULE(space_sim_cpp, m) {
     py::class_<vector3d>(m, "Vector3D")
-        .def(py::init<float, float, float>())
+        .def(py::init<double, double, double>())
         .def_readwrite("x", &vector3d::x)
         .def_readwrite("y", &vector3d::y)
         .def_readwrite("z", &vector3d::z)
@@ -28,7 +28,7 @@ PYBIND11_MODULE(space_sim_cpp, m) {
         .def(py::self - py::self);
 
     py::class_<Body>(m, "Body")
-        .def(py::init<std::string, float, vector3d, vector3d, double>())
+        .def(py::init<std::string, double, vector3d, vector3d, double>())
         .def_readwrite("name", &Body::name)
         .def_readwrite("mass", &Body::mass)
         .def_readwrite("position", &Body::position)

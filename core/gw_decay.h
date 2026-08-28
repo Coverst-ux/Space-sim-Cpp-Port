@@ -11,8 +11,8 @@ struct binarystate {
     double initial_separation = 0.0;
     bool merging = false;
     vector3d pending_velocity;
-    float pending_mass;
-    float pending_radius;
+    double pending_mass;
+    double pending_radius;
     int settle_frames_elapsed = 0;
     vector3d settle_start_position;
 };
@@ -26,16 +26,16 @@ struct binarystate {
     double compute_initial_true_anomaly(const Body& body1, const Body& body2, const binarystate& state);
 
     // peters decay: shrinks a and e based on gravitational wave energy loss
-    void decay_orbital_elements(binarystate& state, float m1, float m2, double dt, double speedup);
+    void decay_orbital_elements(binarystate& state, double m1, double m2, double dt, double speedup);
 
     // advances nu forward based on current orbital speed
-    void advance_true_anomaly(binarystate& state, float m1, float m2, double dt);
+    void advance_true_anomaly(binarystate& state, double m1, double m2, double dt);
 
     //  writes new position/velocity back onto both bodies
     void apply_orbital_state(Body& body1, Body& body2, const binarystate& state);
 
     // registers a new binary pair, computes initial a, e, nu once and returns the state to be stored
-    binarystate create_binary_state(const Body& body1, const Body& body2, int binary_id, int idx1, int idx2, float m1, float m2);
+    binarystate create_binary_state(const Body& body1, const Body& body2, int binary_id, int idx1, int idx2, double m1, double m2);
 
     // updates every active binary pair per frame and writes results back into bodies
     void update_binaries(std::vector<Body>& bodies, double dt);

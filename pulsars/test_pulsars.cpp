@@ -61,19 +61,6 @@ int main() {
     });
 
     
-    vector3d position{0.0, 0.0, config.stellar_radius};
-    vector3d actual = get_magnetic_field(config, position);
-    assert(
-        approximately_equal(actual.x, 0.0) &&
-        approximately_equal(actual.y, 0.0) &&
-        approximately_equal(actual.z, 1.0)
-    );
-
-    expect_invalid_argument([]{
-        vector3d position{0.0, 0.0, 0.0};
-        get_magnetic_field(config, position);
-    });
-    
 // North magnetic pole
 {
     vector3d position{0.0, 0.0, config.stellar_radius};
@@ -101,7 +88,7 @@ int main() {
     );
 }
 
-// Twice the polar distance: field should be 1/8 as strong
+// Twice the polar distance, field should be 1/8 as strong
 {
     vector3d position{
         0.0,
@@ -121,7 +108,7 @@ int main() {
     );
 }
 
-// The dipole field is undefined at the pulsar's centre
+// The dipole field is undefined at the pulsar's center
 expect_invalid_argument([&] {
     vector3d position{0.0, 0.0, 0.0};
     get_magnetic_field(config, position);

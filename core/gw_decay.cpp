@@ -37,7 +37,7 @@ double compute_initial_true_anomaly(const Body& body1, const Body& body2, const 
     return nu;
 }
 
-void decay_orbital_elements(binarystate& state, float m1, float m2, double dt, double speedup) {
+void decay_orbital_elements(binarystate& state, double m1, double m2, double dt, double speedup) {
     double e2 = state.e * state.e;
     double e4 = e2 * e2;
     double G3 = G*G*G;
@@ -60,7 +60,7 @@ void decay_orbital_elements(binarystate& state, float m1, float m2, double dt, d
     state.e = state.e + de_dt * dt * speedup;
 }
 
-void advance_true_anomaly(binarystate& state, float m1, float m2, double dt){
+void advance_true_anomaly(binarystate& state, double m1, double m2, double dt){
     double e2 = state.e * state.e;
     double mu = G*(m1+m2);
     double h = std::sqrt(mu * state.a * (1- e2));
@@ -87,11 +87,11 @@ void apply_orbital_state(Body& body1, Body& body2, const binarystate& state){
     double v_radial = (mu/h) * state.e * sin(state.nu);
     double v_tangential = (mu/h) * (1.0 + state.e * cos(state.nu));
     
-    vector3d rel_pos(distance_between_bodies * cos(state.nu), distance_between_bodies * sin(state.nu), 0.0f);
+    vector3d rel_pos(distance_between_bodies * cos(state.nu), distance_between_bodies * sin(state.nu), 0.0);
     vector3d rel_vel(
         v_radial * cos(state.nu) - v_tangential * sin(state.nu),
         v_radial * sin(state.nu) + v_tangential * cos(state.nu),
-        0.0f
+        0
     );
     
     double total_mass = body1.mass + body2.mass;
@@ -114,7 +114,7 @@ void apply_orbital_state(Body& body1, Body& body2, const binarystate& state){
 }
 
 
-binarystate create_binary_state(const Body& body1, const Body& body2, int binary_id, int idx1, int idx2, float m1, float m2) {
+binarystate create_binary_state(const Body& body1, const Body& body2, int binary_id, int idx1, int idx2, double m1, double m2) {
     binarystate state = compute_orbital_elements(body1, body2, binary_id);
     state.nu = compute_initial_true_anomaly(body1, body2, state);
     state.m1 = m1;
@@ -197,13 +197,13 @@ void update_binaries(std::vector<Body>& bodies, double dt) {
             continue;
         }
 
-        decay_orbital_elements(state, (float)state.m1, (float)state.m2, dt, speedup);
+        decay_orbital_elements(state, state.m1, state.m2, dt, speedup);
 
         if (state.a < 0.0 || !std::isfinite(state.a)) state.a = contact_distance * 0.5;
         if (state.e < 0.0 || !std::isfinite(state.e)) state.e = 0.0;
         if (state.e >= 1.0) state.e = 0.999;
 
-        advance_true_anomaly(state, (float)state.m1, (float)state.m2, dt);
+        advance_true_anomaly(state, state.m1, state.m2, dt);
         apply_orbital_state(body1, body2, state);
     }
 }

@@ -17,5 +17,5 @@ public:
     void subdivide();
     int get_octant(vector3d position);
     void update_mass();
-    vector3d calculate_forces(Body target_body, float theta);
+    vector3d calculate_forces(Body target_body, double theta);
 };

@@ -74,7 +74,7 @@ int octnode::get_octant(vector3d position){
     return idx;
 }
 
-vector3d octnode::calculate_forces(Body target_body, float theta){
+vector3d octnode::calculate_forces(Body target_body, double theta){
     if (body.has_value() && children[0] == nullptr){
         if (body->position.x == target_body.position.x &&
             body->position.y == target_body.position.y &&

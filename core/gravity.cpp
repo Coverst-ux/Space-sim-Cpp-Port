@@ -4,7 +4,7 @@
 #include "vector3d.h"
 
 
-vector3d gravitational_force_softened(float m1, float m2, vector3d pos1, vector3d pos2) {
+vector3d gravitational_force_softened(double m1, double m2, vector3d pos1, vector3d pos2) {
     vector3d displacement = vector3d(pos2.x - pos1.x, pos2.y - pos1.y, pos2.z - pos1.z);
     double distance_sq = displacement.x*displacement.x + displacement.y*displacement.y + displacement.z*displacement.z + EPSILON*EPSILON;
     double magnitude = G * m1 * m2 / distance_sq;
