@@ -10,8 +10,11 @@ PulsarConfig config{
     1.0,
     1.0,
     0.1,
+    0.0,
     vector3d{0.0, 0.0, 1.0}
 };
+
+constexpr double PI = 3.14159265358979;
 
 bool approximately_equal(double actual, double expected){
     constexpr double tolerance = 1e-10;
@@ -64,7 +67,7 @@ int main() {
 // North magnetic pole
 {
     vector3d position{0.0, 0.0, config.stellar_radius};
-    vector3d actual = get_magnetic_field(config, position);
+    vector3d actual = get_magnetic_field(config, position, 0.0);
 
     assert(
         approximately_equal(actual.x, 0.0) &&
@@ -76,7 +79,7 @@ int main() {
 // Magnetic equator
 {
     vector3d position{config.stellar_radius, 0.0, 0.0};
-    vector3d actual = get_magnetic_field(config, position);
+    vector3d actual = get_magnetic_field(config, position, 0.0);
 
     assert(
         approximately_equal(actual.x, 0.0) &&
@@ -96,7 +99,7 @@ int main() {
         config.stellar_radius * 2.0
     };
 
-    vector3d actual = get_magnetic_field(config, position);
+    vector3d actual = get_magnetic_field(config, position, 0.0);
 
     assert(
         approximately_equal(actual.x, 0.0) &&
@@ -111,7 +114,7 @@ int main() {
 // The dipole field is undefined at the pulsar's center
 expect_invalid_argument([&] {
     vector3d position{0.0, 0.0, 0.0};
-    get_magnetic_field(config, position);
+    get_magnetic_field(config, position, 0.0);
 });
 
 // This implementation models only the exterior field
@@ -122,22 +125,30 @@ expect_invalid_argument([&] {
         config.stellar_radius * 0.5
     };
 
-    get_magnetic_field(config, position);
+    get_magnetic_field(config, position, 0.0);
 });
 
-// A zero vector cannot define a magnetic-axis direction
-expect_invalid_argument([&] {
-    PulsarConfig invalid_config = config;
-    invalid_config.magnetic_axis = vector3d{0.0, 0.0, 0.0};
+// Magnetic axis tilted 90 degrees should start along +x
+{
+    vector3d actual = rotating_magnetic_axis(PI / 2.0, 1.0, 0.0);
 
-    vector3d position{
-        0.0,
-        0.0,
-        invalid_config.stellar_radius
-    };
+    assert(
+        approximately_equal(actual.x, 1.0) &&
+        approximately_equal(actual.y, 0.0) &&
+        approximately_equal(actual.z, 0.0)
+    );
+}
 
-    get_magnetic_field(invalid_config, position);
-});
+// After rotating pi/2 radians, the axis should point along +y
+{
+    vector3d actual = rotating_magnetic_axis(PI / 2.0, 1.0, PI / 2.0);
+
+    assert(
+        approximately_equal(actual.x, 0.0) &&
+        approximately_equal(actual.y, 1.0) &&
+        approximately_equal(actual.z, 0.0)
+    );
+}
 
     std::cout << "All pulsar tests passed.\n";
     return 0;

@@ -49,7 +49,6 @@ int main(){
 
 
 
-    // In gravity.h / gravity.cpp — assumes G is already defined there
 
     return 0;
 }

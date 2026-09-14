@@ -68,7 +68,7 @@ void advance_true_anomaly(binarystate& state, double m1, double m2, double dt){
     double dv_dt = h / (distance_between_bodies * distance_between_bodies);
 
     double dnu = dv_dt * dt;
-    const double max_dnu = 0.05;  // radians — cap how far nu can advance in a single step
+    const double max_dnu = 0.05;  // radians, cap how far nu can advance in a single step
     if (dnu > max_dnu) dnu = max_dnu;
 
     state.nu = state.nu + dnu;

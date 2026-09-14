@@ -79,7 +79,7 @@ vector3d octnode::calculate_forces(Body target_body, double theta){
         if (body->position.x == target_body.position.x &&
             body->position.y == target_body.position.y &&
             body->position.z == target_body.position.z) {
-                // same position — this is the body we're computing forces for, skip it
+                // same position, this is the body we're computing forces for, skip it
                 return vector3d(0, 0, 0);
         }
         return gravitational_force_softened(
