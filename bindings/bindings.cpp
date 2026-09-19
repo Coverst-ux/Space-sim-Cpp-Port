@@ -90,13 +90,15 @@ PYBIND11_MODULE(space_sim_cpp, m) {
       "Updates all active binary pairs via GW decay and writes results back into bodies");
     
     py::class_<PulsarConfig>(m, "PulsarConfig")
-        .def(py::init<double, double, double, double, vector3d>())
+        .def(py::init<double, double, double, double, double, vector3d, double, double>())
         .def_readwrite("stellar_radius", &PulsarConfig::stellar_radius)
         .def_readwrite("speed_of_light", &PulsarConfig::speed_of_light)
         .def_readwrite("polar_field_strength", &PulsarConfig::polar_field_strength)
         .def_readwrite("omega", &PulsarConfig::omega)
-        .def_readwrite("magnetic_axis", &PulsarConfig::magnetic_axis);
-
+        .def_readwrite("alpha", &PulsarConfig::alpha)
+        .def_readwrite("magnetic_axis", &PulsarConfig::magnetic_axis)
+        .def_readwrite("mass", &PulsarConfig::mass)
+        .def_readwrite("phase", &PulsarConfig::phase);
     m.def("rotation_period", &rotation_period,
     py::arg("omega"), "Returns the time required for one full rotation from the angular velocity"
     );
@@ -107,8 +109,35 @@ PYBIND11_MODULE(space_sim_cpp, m) {
     );
 
     m.def("get_magnetic_field", &get_magnetic_field,
-    py::arg("config"),
-    py::arg("position")
+        py::arg("config"),
+        py::arg("position")
     );
 
+    m.def("spin_down_rate", &spin_down_rate,
+        py::arg("config")
+    );
+
+    m.def("rotating_magnetic_axis", &rotating_magnetic_axis,
+    py::arg("alpha"),
+    py::arg("phase")
+    );
+
+    m.def("update_phase", &update_phase,
+    py::arg("config"),
+    py::arg("dt")
+    );
+    
+    m.def("update_spin", &update_spin,
+    py::arg("config"),
+    py::arg("dt")
+    );
+
+    m.def("update_pulsar", &update_pulsar,
+    py::arg("config"),
+    py::arg("dt")
+    );
+
+    m.def("dipole_radiation_power", &dipole_radiation_power,
+    py::arg("config")
+    );
 }
