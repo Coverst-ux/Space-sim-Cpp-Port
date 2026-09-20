@@ -3,6 +3,12 @@
 **The original C++ physics core existed before this Stardance project. Work on the
 pulsar extension began on August 26, 2026.**
 
+## Demo Website
+
+**Live demo:** [Try Space Sim](https://coverst-ux.github.io/space-sim-site/)
+
+**Demo website source code:** [View the website source](https://github.com/Coverst-ux/space-sim-site)
+
 ## New work 
 
 ## Pulsar rotation-period calculations
