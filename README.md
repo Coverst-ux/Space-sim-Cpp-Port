@@ -9,6 +9,7 @@ pulsar extension began on August 26, 2026.**
 
 **Demo website source code:** [View the website source](https://github.com/Coverst-ux/space-sim-site)
 
+**The source code for the demo website is under demo_website in this repository**
 ## New work 
 
 ## Pulsar rotation-period calculations
